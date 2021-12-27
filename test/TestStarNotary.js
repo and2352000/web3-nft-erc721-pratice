@@ -1,3 +1,4 @@
+
 const StarNotary = artifacts.require("StarNotary");
 
 var accounts;
@@ -78,22 +79,45 @@ it('lets user2 buy a star and decreases its balance in ether', async() => {
 it('can add the star name and star symbol properly', async() => {
     // 1. create a Star with different tokenId
     //2. Call the name and symbol properties in your Smart Contract and compare with the name and symbol provided
+    let instance = await StarNotary.deployed();
+    const name = await instance.name();
+    assert.equal(name, "StarNotary");
 });
 
 it('lets 2 users exchange stars', async() => {
     // 1. create 2 Stars with different tokenId
     // 2. Call the exchangeStars functions implemented in the Smart Contract
     // 3. Verify that the owners changed
+    let instance = await StarNotary.deployed();
+    let user1 = accounts[0];
+    let user2 = accounts[1];
+    await instance.createStar('star1', 7, {from: user1});
+    await instance.createStar('star2', 8, {from: user2});
+    instance.exchangeStars(7,8);
+    assert.equal(await instance.ownerOf.call(8), user1);
+    assert.equal(await instance.ownerOf.call(7), user2);
 });
 
 it('lets a user transfer a star', async() => {
     // 1. create a Star with different tokenId
     // 2. use the transferStar function implemented in the Smart Contract
     // 3. Verify the star owner changed.
+    let instance = await StarNotary.deployed();
+    let user1 = accounts[0];
+    let user2 = accounts[1];
+    const tokenId = 9;
+    await instance.createStar('star1', tokenId, {from: user1});
+    instance.transferStar(user2,tokenId);
+    assert.equal(await instance.ownerOf.call(tokenId), user2);
 });
 
 it('lookUptokenIdToStarInfo test', async() => {
     // 1. create a Star with different tokenId
     // 2. Call your method lookUptokenIdToStarInfo
     // 3. Verify if you Star name is the same
+    let instance = await StarNotary.deployed();
+    let user1 = accounts[0];
+    const tokenId = 10;
+    await instance.createStar('star1', tokenId, {from: user1});
+    assert.equal(await instance.lookUptokenIdToStarInfo(tokenId), 'star1');
 });

@@ -5,6 +5,12 @@
 This Starter Code has already implemented the functionalities you implemented in the StarNotary (Version 2) exercise, and have comments in all the files you need to implement your tasks.
 
 
+### 
+1) Token Name: StarNotary
+2) Token Symbol: star
+3) Version=> Truffle: v5.0.2 and OpenZeppelin: 2.XX
+4) Token Address(Rinkeby Network): 0x1d464c60375dfAFA6C8A9CC50b22229e86991660
+
 
 ### Dependencies
 For this project, you will need to have:
